@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import App from './App';
+import App, {replaceCamelWithSpaces}  from './App';
 
 //////// REACT TESTING LIBRARY //////////////////
 // render components into virtual Dom
@@ -74,5 +74,16 @@ test('disabled button has gray bg and reverts to red', () => {
   expect(button).toHaveStyle({backgroundColor: 'blue'});
 })
 
+describe('spaces before camelCase capital letters', () => {
+  test('works for no inner capital letters', () => {
+    expect(replaceCamelWithSpaces('Red')).toBe('Red');
+  })
+  test('works for one inner capital letters', () => {
+    expect(replaceCamelWithSpaces('MidnightBlue')).toBe('Midnight Blue');
+  })
+  test('works for multiple inner capital letters', () => {
+    expect(replaceCamelWithSpaces('MediumVioletRed')).toBe('Medium Violet Red');
+  })
+})
 
 
