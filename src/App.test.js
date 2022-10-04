@@ -26,11 +26,11 @@ test('button changes color and is disabled when checkbox is clicked', () => {
   render(<App />);
   // find an el with a role of button and text of Change to blue
   const button = screen.getByRole('button', { name: 'Change to blue' });
-  const checkbox = screen.getByRole('checkbox');
+  const checkbox = screen.getByLabelText('Disable button');
 
   fireEvent.click(button);
   expect(button).toHaveStyle({backgroundColor: 'blue'})
-  expect(button.textContent).toBe('Change to red')
+  // expect(button.textContent).toBe('Change to red')
 
   fireEvent.click(checkbox);
   expect(button).toBeDisabled();
@@ -49,6 +49,29 @@ test('initial conditions', () => {
   expect(button).toBeEnabled()
   expect(button).toHaveStyle({ backgroundColor: 'red' })
   
+})
+
+test('clicked disabled button has gray bg and reverts to blue', () => {
+  render(<App />);
+  const button  = screen.getByRole('button', {name: 'Change to blue'});
+  const checkbox = screen.getByLabelText('Disable button');
+  
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor: 'gray'});
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor: 'red'});
+})
+
+test('disabled button has gray bg and reverts to red', () => {
+  render(<App />);
+  const button  = screen.getByRole('button', {name: 'Change to blue'});
+  const checkbox = screen.getByLabelText('Disable button');
+  
+  fireEvent.click(button);
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor: 'gray'});
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({backgroundColor: 'blue'});
 })
 
 
