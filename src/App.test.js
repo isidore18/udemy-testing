@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import App, {replaceCamelWithSpaces}  from './App';
+import { render, screen, fireEvent } from "@testing-library/react";
+import App, { replaceCamelWithSpaces } from "./App";
 
 //////// REACT TESTING LIBRARY //////////////////
 // render components into virtual Dom
@@ -7,10 +7,9 @@ import App, {replaceCamelWithSpaces}  from './App';
 // interacting with virtual dom
 // needs a test runner
 
-
-// JEST 
+// JEST
 // recommended by testing library
-// watch mode 
+// watch mode
 
 // types of tests
 // unit tests
@@ -22,68 +21,76 @@ import App, {replaceCamelWithSpaces}  from './App';
 // acceptance / E2E tests
 // use actual browser and server (cypress and selenium)
 
-test('button changes color and is disabled when checkbox is clicked', () => {
+test("button changes color and is disabled when checkbox is clicked", () => {
   render(<App />);
   // find an el with a role of button and text of Change to blue
-  const button = screen.getByRole('button', { name: 'Change to blue' });
-  const checkbox = screen.getByLabelText('Disable button');
+  const button = screen.getByRole("button", {
+    name: `Change to Midnight Blue`,
+  });
+  const checkbox = screen.getByLabelText("Disable button");
 
   fireEvent.click(button);
-  expect(button).toHaveStyle({backgroundColor: 'blue'})
-  // expect(button.textContent).toBe('Change to red')
+  expect(button).toHaveStyle({
+    backgroundColor: replaceCamelWithSpaces("MidnightBlue"),
+  });
 
   fireEvent.click(checkbox);
   expect(button).toBeDisabled();
 
   fireEvent.click(checkbox);
-  expect(button).toBeEnabled()
-
+  expect(button).toBeEnabled();
 });
 
-test('initial conditions', () => {
-  render(<App />)
-  // checks that button is enabled and checkbox is not checked
-
-  const button = screen.getByRole('button', 'Change to blue');
-
-  expect(button).toBeEnabled()
-  expect(button).toHaveStyle({ backgroundColor: 'red' })
-  
-})
-
-test('clicked disabled button has gray bg and reverts to blue', () => {
+test("initial conditions", () => {
   render(<App />);
-  const button  = screen.getByRole('button', {name: 'Change to blue'});
-  const checkbox = screen.getByLabelText('Disable button');
-  
-  fireEvent.click(checkbox);
-  expect(button).toHaveStyle({backgroundColor: 'gray'});
-  fireEvent.click(checkbox);
-  expect(button).toHaveStyle({backgroundColor: 'red'});
-})
 
-test('disabled button has gray bg and reverts to red', () => {
+  const button = screen.getByRole("button", "Change to Medium Violet Red");
+
+  expect(button).toBeEnabled();
+  expect(button).toHaveStyle({
+    backgroundColor: replaceCamelWithSpaces("MediumVioletRed"),
+  });
+});
+
+test("clicked disabled button has gray bg and reverts to blue", () => {
   render(<App />);
-  const button  = screen.getByRole('button', {name: 'Change to blue'});
-  const checkbox = screen.getByLabelText('Disable button');
-  
+
+  const button = screen.getByRole("button", {
+    name: `Change to Midnight Blue`,
+  });
+  const checkbox = screen.getByLabelText("Disable button");
+
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({ backgroundColor: "gray" });
+  fireEvent.click(checkbox);
+  expect(button).toHaveStyle({
+    backgroundColor: replaceCamelWithSpaces("MediumVioletRed"),
+  });
+});
+
+test("disabled button has gray bg and reverts to red", () => {
+  render(<App />);
+
+  const button = screen.getByRole("button");
+  const checkbox = screen.getByLabelText("Disable button");
+
   fireEvent.click(button);
   fireEvent.click(checkbox);
-  expect(button).toHaveStyle({backgroundColor: 'gray'});
+  expect(button).toHaveStyle({ backgroundColor: "gray" });
   fireEvent.click(checkbox);
-  expect(button).toHaveStyle({backgroundColor: 'blue'});
-})
+  expect(button).toHaveStyle({
+    backgroundColor: replaceCamelWithSpaces("MidnightBlue"),
+  });
+});
 
-describe('spaces before camelCase capital letters', () => {
-  test('works for no inner capital letters', () => {
-    expect(replaceCamelWithSpaces('Red')).toBe('Red');
-  })
-  test('works for one inner capital letters', () => {
-    expect(replaceCamelWithSpaces('MidnightBlue')).toBe('Midnight Blue');
-  })
-  test('works for multiple inner capital letters', () => {
-    expect(replaceCamelWithSpaces('MediumVioletRed')).toBe('Medium Violet Red');
-  })
-})
-
-
+describe("spaces before camelCase capital letters", () => {
+  test("works for no inner capital letters", () => {
+    expect(replaceCamelWithSpaces("Red")).toBe("Red");
+  });
+  test("works for one inner capital letters", () => {
+    expect(replaceCamelWithSpaces("MidnightBlue")).toBe("Midnight Blue");
+  });
+  test("works for multiple inner capital letters", () => {
+    expect(replaceCamelWithSpaces("MediumVioletRed")).toBe("Medium Violet Red");
+  });
+});
